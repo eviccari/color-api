@@ -91,6 +91,10 @@ public class TestColorController extends TestConfiguration{
         response = mvc.perform(request).andReturn();
 
         assertEquals(200, response.getResponse().getStatus());
+
+        request = MockMvcRequestBuilders.get(BASE_PATH + generatedId.getGeneratedId());
+        response = mvc.perform(request).andReturn();
+        assertEquals(404, response.getResponse().getStatus());
     }
     
 }
