@@ -28,6 +28,26 @@ public class TestColorController extends TestConfiguration{
     private MockMvc mvc;
 
     @Test
+    void ShouldFindColorById() throws Exception{
+        var dto = this.buildColorDTOMock();
+
+        var request = MockMvcRequestBuilders.post(
+            BASE_PATH
+        ).contentType(MediaType.APPLICATION_JSON_VALUE)
+        .content(dto.toString());
+
+        var response = mvc.perform(request).andReturn();
+        var generatedId = new Gson().fromJson(
+            response.getResponse().getContentAsString(), 
+            CreateOkDTO.class
+        );
+
+        request = MockMvcRequestBuilders.get(BASE_PATH + generatedId.getGeneratedId());
+        response = mvc.perform(request).andReturn();
+        assertEquals(200, response.getResponse().getStatus());
+    }
+
+    @Test
     void ShouldGet404HTTPStatus() throws Exception {
         var request = MockMvcRequestBuilders.get(BASE_PATH + "100");
         var response = mvc.perform(request).andReturn();
