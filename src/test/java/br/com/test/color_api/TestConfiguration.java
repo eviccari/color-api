@@ -11,7 +11,7 @@ import br.com.test.color_api.repositories.ColorRepository;
 import br.com.test.color_api.services.ColorService;
 import br.com.test.color_api.services.Service;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class TestConfiguration {
 
