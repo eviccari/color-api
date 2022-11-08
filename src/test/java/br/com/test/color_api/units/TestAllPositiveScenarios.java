@@ -16,9 +16,6 @@ import br.com.test.color_api.exceptions.BadRequestException;
 import br.com.test.color_api.exceptions.InternalServerErrorException;
 import br.com.test.color_api.exceptions.NotFoundException;
 import br.com.test.color_api.exceptions.UnprocessableEntityException;
-import br.com.test.color_api.repositories.ColorRepository;
-import br.com.test.color_api.services.ColorService;
-import br.com.test.color_api.services.Service;
 
 class TestAllPositiveScenarios extends TestConfiguration{
 
@@ -69,11 +66,8 @@ class TestAllPositiveScenarios extends TestConfiguration{
 
     @Test
     void ShouldCreateNewColor() throws UnprocessableEntityException, InternalServerErrorException {
-        var service = this.buildServiceInstance();
-        var dto = ColorDTO.builder()
-            .description("any")
-            .shortDescription("any")
-        .build();
+        var service = this.buildServiceInstance(this.buildSQlRepositoryAdapterStub());
+        var dto = this.buildColorDTOMock();
 
         var generatedId = service.create(dto);
         assertNotEquals(null, generatedId);
@@ -81,11 +75,8 @@ class TestAllPositiveScenarios extends TestConfiguration{
 
     @Test
     void ShouldUpdateColor() throws UnprocessableEntityException, BadRequestException, InternalServerErrorException, NotFoundException {
-        var service = this.buildServiceInstance();
-        var dto = ColorDTO.builder()
-            .description("any")
-            .shortDescription("any")
-        .build();
+        var service = this.buildServiceInstance(this.buildSQlRepositoryAdapterStub());
+        var dto = this.buildColorDTOMock();
 
         var generatedId = service.create(dto);
         var updatedRowCount = service.update(dto, generatedId);
@@ -95,11 +86,8 @@ class TestAllPositiveScenarios extends TestConfiguration{
 
     @Test
     void ShouldDeleteColor() throws BadRequestException, UnprocessableEntityException, NotFoundException,InternalServerErrorException{
-        var service = this.buildServiceInstance();
-        var dto = ColorDTO.builder()
-            .description("any")
-            .shortDescription("any")
-        .build();
+        var service = this.buildServiceInstance(this.buildSQlRepositoryAdapterStub());
+        var dto = this.buildColorDTOMock();
 
         var generatedId = service.create(dto);
         service.delete(generatedId);
@@ -109,20 +97,12 @@ class TestAllPositiveScenarios extends TestConfiguration{
 
     @Test
     void ShouldFindById() throws BadRequestException, InternalServerErrorException, UnprocessableEntityException, NotFoundException {
-        var service = this.buildServiceInstance();
-        var dto = ColorDTO.builder()
-            .description("any")
-            .shortDescription("any")
-        .build();
+        var service = this.buildServiceInstance(this.buildSQlRepositoryAdapterStub());
+        var dto = this.buildColorDTOMock();
 
         var generatedId = service.create(dto);
         var found = service.findById(generatedId);
         assertEquals(dto.getDescription(), found.getDescription());
     }
 
-    private Service<ColorDTO> buildServiceInstance() {
-        var sqlRepositoryAdapter = this.buildSQlRepositoryAdapterStub();
-        var repository = new ColorRepository(sqlRepositoryAdapter);
-        return new ColorService(repository);
-    }    
 }

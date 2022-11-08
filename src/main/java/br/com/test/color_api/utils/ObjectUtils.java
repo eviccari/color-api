@@ -7,14 +7,6 @@ public class ObjectUtils {
 
     private ObjectUtils(){}
 
-    public static final ColorDTO convertFrom(Color color){
-        return ColorDTO.builder()
-            .description(color.getDescription())
-            .shortDescription(color.getShortDescription())
-            .id(color.getId())
-        .build();
-    }
-
     public static final Color convertFrom(ColorDTO colorDTO){
         return Color.builder()
             .description(colorDTO.getDescription())

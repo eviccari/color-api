@@ -2,7 +2,6 @@ package br.com.test.color_api.models;
 
 import br.com.test.color_api.exceptions.UnprocessableEntityException;
 import br.com.test.color_api.utils.StringUtils;
-import com.google.gson.Gson;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,11 +21,6 @@ public class Color implements Validatable, Identifiable{
     @Getter
     @Setter
     private String shortDescription;
-
-    @Override
-    public String toString() {
-        return new Gson().toJson(this);
-    }
 
     @Override
     public void validate() throws UnprocessableEntityException {

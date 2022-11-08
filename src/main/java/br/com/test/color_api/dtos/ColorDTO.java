@@ -1,5 +1,7 @@
 package br.com.test.color_api.dtos;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.Gson;
 
@@ -13,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ColorDTO {
+public class ColorDTO implements Serializable{
 
     @Getter
     @Setter

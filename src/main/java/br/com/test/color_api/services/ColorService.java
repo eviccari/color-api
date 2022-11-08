@@ -11,6 +11,8 @@ import br.com.test.color_api.utils.StringUtils;
 
 public class ColorService implements Service<ColorDTO>{
 
+    public static final String COLOR_ID_IS_REQUIRED_MESSAGE = "color id is required";
+
     private Repository<ColorDTO> repository;
 
     public ColorService(Repository<ColorDTO> repository){
@@ -18,7 +20,10 @@ public class ColorService implements Service<ColorDTO>{
     }
 
     @Override
-    public ColorDTO findById(String id) throws InternalServerErrorException, NotFoundException {
+    public ColorDTO findById(String id) throws InternalServerErrorException, NotFoundException, BadRequestException {
+        if(StringUtils.isEmpty(id)) 
+            throw new BadRequestException(COLOR_ID_IS_REQUIRED_MESSAGE);
+
         var color = this.repository.findById(id);
         if(color != null) {
             return color;
@@ -41,7 +46,7 @@ public class ColorService implements Service<ColorDTO>{
     @Override
     public int update(ColorDTO entity, String id) throws InternalServerErrorException, UnprocessableEntityException, BadRequestException, NotFoundException {
         if(StringUtils.isEmpty(id)){
-            throw new BadRequestException("color id is required");
+            throw new BadRequestException(COLOR_ID_IS_REQUIRED_MESSAGE);
         }
 
         entity.setId(id);
@@ -60,7 +65,7 @@ public class ColorService implements Service<ColorDTO>{
     @Override
     public void delete(String id) throws InternalServerErrorException, BadRequestException {
         if(StringUtils.isEmpty(id)){
-            throw new BadRequestException("color id is required");
+            throw new BadRequestException(COLOR_ID_IS_REQUIRED_MESSAGE);
         }
 
         this.repository.delete(id);
